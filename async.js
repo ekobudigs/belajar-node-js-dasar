@@ -1,10 +1,27 @@
-function samplePromise(){
-    return Promise.resolve("eko");
+function makeEspresso() {
+    checkAvailability()
+        .then((value) => {
+            console.log(value);
+            return checkStock();
+        })
+        .then(value => {
+            console.log(value);
+            const promises = [boilWater(), grindCoffeeBeans()];
+            return Promise.all(promises);
+        })
+        .then((value) => {
+            console.log(value)
+            return brewCoffee();
+        })
+        .then(value => {
+            console.log(value);
+            state.isCoffeeMachineBusy = false;
+        })
+        .catch(rejectedReason => {
+            console.log(rejectedReason);
+            state.isCoffeeMachineBusy = false;
+        });
 }
-
-async function run(){
-    const name = await samplePromise();
-    console.info(name);
-}
-
-run();
+ 
+makeEspresso();
+ 
